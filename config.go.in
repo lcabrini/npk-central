@@ -1,0 +1,17 @@
+package main
+
+import (
+    "github.com/lcabrini/npk-common"
+)
+
+var config = npk.Configuration {
+    Database: npk.DatabaseConfig {
+        Host: "<hostname or IP address",
+        Port: "<port number>",
+        SSLMode: "<enable or disable>",
+        Username: "<username>",
+        Password: "<password>",
+        Catalog: "<catalog name>",
+    },
+    SessionKey: "<session key>",
+}
