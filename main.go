@@ -7,5 +7,5 @@ import (
 
 func main() {
     r := mux.NewRouter()
-    http.ListenAndServe(":9000", r)
+    http.ListenAndServe(config.Listen, r)
 }

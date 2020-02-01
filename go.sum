@@ -6,7 +6,7 @@ github.com/gorilla/securecookie v1.1.1 h1:miw7JPhV+b/lAHSXz4qd/nN9jRiAFV5FwjeKyC
 github.com/gorilla/securecookie v1.1.1/go.mod h1:ra0sb63/xPlUeL+yeDciTfxMRAA+MP+HVt/4epWDjd4=
 github.com/gorilla/sessions v1.2.0 h1:S7P+1Hm5V/AT9cjEcUD5uDaQSX0OE577aCXgoaKpYbQ=
 github.com/gorilla/sessions v1.2.0/go.mod h1:dk2InVEVJ0sfLlnXv9EAgkf6ecYs/i80K/zI+bUmuGM=
-github.com/lcabrini/npk-common v0.0.0-20200131143256-769d5f4786cd h1:e9Wjc/grUEfM+fmMcpjwqeB5Htb6zG5Hu6s81wPq0+w=
-github.com/lcabrini/npk-common v0.0.0-20200131143256-769d5f4786cd/go.mod h1:CCZrDYWekS9UviAYeycroYiAgIgI4GvbaoB56KOtk7Q=
+github.com/lcabrini/npk-common v0.0.0-20200201200614-b31a253dc77e h1:ejE2/2jcpDW4Q3F7fHFtfb9pHRbpdCHtUGd8YPEPQc0=
+github.com/lcabrini/npk-common v0.0.0-20200201200614-b31a253dc77e/go.mod h1:CCZrDYWekS9UviAYeycroYiAgIgI4GvbaoB56KOtk7Q=
 github.com/lib/pq v1.3.0 h1:/qkRGz8zljWiDcFvgpwUpwIAPu3r07TDvs3Rws+o/pU=
 github.com/lib/pq v1.3.0/go.mod h1:5WUZQaWbwv1U+lTReE5YruASi9Al49XbQIvNi/34Woo=
