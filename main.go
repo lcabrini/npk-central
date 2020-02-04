@@ -18,5 +18,6 @@ func main() {
     npk.SetupSessionStore(config)
     r := mux.NewRouter()
     npk.SetupRoutes(r)
+    r.HandleFunc("/users", npk.DisableCache(npk.Authenticated(ListUsers)))
     http.ListenAndServe(config.Listen, r)
 }
