@@ -1,6 +1,7 @@
 package main
 
 import (
+    "log"
     "net/http"
     "html/template"
     "github.com/lcabrini/npk-common"
@@ -40,7 +41,30 @@ var userListTpl = `
 {{template "base" .}}
 
 {{define "main"}}
-<p>Test</p>
+<table class="table is-fullwidth">
+  <thead>
+    <tr>
+      <th>Username</th>
+      <th>Created</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {{range .}}
+      <tr>
+        <td>{{.Username}}</td>
+        <td>{{.CreatedAt}}</td>
+        <td>{{.Status}}</td>
+        <td>
+          <a href="#"><i class="fa fa-edit"></i></a>
+          <a href="#"><i class="fa fa-trash-alt"></i></a>
+        </td>
+      </tr>
+    {{end}}
+  </tbody>
+</table>
 {{end}}
 `
 
@@ -53,5 +77,8 @@ func ListUsers(w http.ResponseWriter, r *http.Request) {
     t, _ := template.New("base").Parse(npk.BaseTemplate)
     t.New("navbar").Parse(npk.Navbar)
     t.New("users").Parse(userListTpl)
-    t.ExecuteTemplate(w, "users", users)
+    err = t.ExecuteTemplate(w, "users", users)
+    if err != nil {
+        log.Printf("error: %v", err)
+    }
 }
