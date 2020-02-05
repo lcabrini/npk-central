@@ -40,7 +40,16 @@ func userList() ([]npk.User, error) {
 var userListTpl = `
 {{template "base" .}}
 
+{{define "toolbar"}}
+<div class="container has-text-right">
+  <a href="/users/add">
+    <i class="fa fa-plus"></i>
+  </a>
+</div>
+{{end}}
+
 {{define "main"}}
+
 <table class="table is-fullwidth">
   <thead>
     <tr>
