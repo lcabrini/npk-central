@@ -91,3 +91,29 @@ func ListUsers(w http.ResponseWriter, r *http.Request) {
         log.Printf("error: %v", err)
     }
 }
+
+var userForm = `
+{{template "base" .}}
+
+{{define "toolbar"}}{{end}}
+
+{{define "main"}}
+<p>Add a user</p>
+{{end}}
+`
+
+func AddUser(w http.ResponseWriter, r *http.Request) {
+    switch r.Method {
+    case "GET":
+        t, _ := template.New("base").Parse(npk.BaseTemplate)
+        t.New("navbar").Parse(npk.Navbar)
+        t.New("userForm").Parse(userForm)
+        t.ExecuteTemplate(w, "userForm", nil)
+
+    case "POST":
+        break
+
+    default:
+        http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+    }
+}
