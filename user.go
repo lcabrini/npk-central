@@ -100,7 +100,11 @@ var userForm = `
 {{define "main"}}
 
 <div class="container">
-  <h1 class="title">Add User</h1>
+  {{if .}}
+    <h1 class="title">Edit User</h1>
+  {{else}}
+    <h1 class="title">Add User</h1>
+  {{end}}
 
   <form method="post">
     <div class="field">
@@ -125,6 +129,7 @@ var userForm = `
       </div>
     </div>
 
+    {{if .}}
     <div class="field">
       <label class="label">Status</label>
       <div class="control">
@@ -137,6 +142,7 @@ var userForm = `
         </div>
       </div>
     </div>
+    {{end}}
 
     <div class="field">
       <p class="control has-text-right">
@@ -154,7 +160,10 @@ func AddUser(w http.ResponseWriter, r *http.Request) {
         t, _ := template.New("base").Parse(npk.BaseTemplate)
         t.New("navbar").Parse(npk.Navbar)
         t.New("userForm").Parse(userForm)
-        t.ExecuteTemplate(w, "userForm", nil)
+        err := t.ExecuteTemplate(w, "userForm", nil)
+        if err != nil {
+            log.Printf("Error: %v", err)
+        }
 
     case "POST":
         break
