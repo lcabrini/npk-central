@@ -98,7 +98,53 @@ var userForm = `
 {{define "toolbar"}}{{end}}
 
 {{define "main"}}
-<p>Add a user</p>
+
+<div class="container">
+  <h1 class="title">Add User</h1>
+
+  <form method="post">
+    <div class="field">
+      <label class="label">Username</label>
+      <div class="control">
+        <input class="input" name="username" type="text">
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Password</label>
+      <div class="control">
+        <input class="input" name="password1" type="password"
+          placeholder="Password">
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="control">
+        <input class="input" name="password2" type="password"
+          placeholder="Password confirmation">
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Status</label>
+      <div class="control">
+        <div class="select">
+          <select name="status">
+            <option value="new">New</option>
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <p class="control has-text-right">
+        <button class="button is-success">Submit</button>
+      </p>
+    </div>
+  </form>
+</div>
 {{end}}
 `
 
