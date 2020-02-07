@@ -4,6 +4,7 @@ import (
     "log"
     "net/http"
     "html/template"
+    "github.com/google/uuid"
     "github.com/lcabrini/npk-common"
 )
 
@@ -37,10 +38,30 @@ func userList() ([]npk.User, error) {
     return users, nil
 }
 
+func addUser(u *npk.User) {
+    sql := `
+    insert into users(id, username, password)
+    values($1, $2, $3)
+    `
+
+    u.Id, _ = uuid.NewRandom()
+    db, _ := npk.DBConnection(config)
+    db.Query(sql, u.Id, u.Username, u.Password)
+}
+
 var userListTpl = `
 {{template "base" .}}
 
+{{define "toolbar"}}
+<div class="container has-text-right">
+  <a href="/users/add">
+    <i class="fa fa-plus"></i>
+  </a>
+</div>
+{{end}}
+
 {{define "main"}}
+
 <table class="table is-fullwidth">
   <thead>
     <tr>
@@ -80,5 +101,96 @@ func ListUsers(w http.ResponseWriter, r *http.Request) {
     err = t.ExecuteTemplate(w, "users", users)
     if err != nil {
         log.Printf("error: %v", err)
+    }
+}
+
+var userForm = `
+{{template "base" .}}
+
+{{define "toolbar"}}{{end}}
+
+{{define "main"}}
+
+<div class="container">
+  {{if .}}
+    <h1 class="title">Edit User</h1>
+  {{else}}
+    <h1 class="title">Add User</h1>
+  {{end}}
+
+  <form method="post">
+    <div class="field">
+      <label class="label">Username</label>
+      <div class="control">
+        <input class="input" name="username" type="text">
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Password</label>
+      <div class="control">
+        <input class="input" name="password1" type="password"
+          placeholder="Password">
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="control">
+        <input class="input" name="password2" type="password"
+          placeholder="Password confirmation">
+      </div>
+    </div>
+
+    {{if .}}
+    <div class="field">
+      <label class="label">Status</label>
+      <div class="control">
+        <div class="select">
+          <select name="status">
+            <option value="new">New</option>
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    {{end}}
+
+    <div class="field">
+      <p class="control has-text-right">
+        <button class="button is-success">Submit</button>
+      </p>
+    </div>
+  </form>
+</div>
+{{end}}
+`
+
+func AddUser(w http.ResponseWriter, r *http.Request) {
+    switch r.Method {
+    case "GET":
+        t, _ := template.New("base").Parse(npk.BaseTemplate)
+        t.New("navbar").Parse(npk.Navbar)
+        t.New("userForm").Parse(userForm)
+        err := t.ExecuteTemplate(w, "userForm", nil)
+        if err != nil {
+            log.Printf("Error: %v", err)
+        }
+
+    case "POST":
+        if err := r.ParseForm(); err != nil {
+            log.Printf("Failed to parse form: %v", err)
+            return
+        }
+
+        user := npk.User{
+            Username: r.FormValue("username"),
+            Password: r.FormValue("password1"),
+        }
+        addUser(&user)
+        http.Redirect(w, r, "/users", http.StatusFound)
+
+    default:
+        http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
     }
 }

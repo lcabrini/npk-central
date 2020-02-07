@@ -19,5 +19,7 @@ func main() {
     r := mux.NewRouter()
     npk.SetupRoutes(r)
     r.HandleFunc("/users", npk.DisableCache(npk.Authenticated(ListUsers)))
+    r.HandleFunc("/users/add",
+        npk.DisableCache(npk.Authenticated(AddUser)))
     http.ListenAndServe(config.Listen, r)
 }
