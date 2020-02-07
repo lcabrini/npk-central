@@ -4,6 +4,7 @@ import (
     "log"
     "net/http"
     "html/template"
+    "github.com/google/uuid"
     "github.com/lcabrini/npk-common"
 )
 
@@ -35,6 +36,17 @@ func userList() ([]npk.User, error) {
     }
 
     return users, nil
+}
+
+func addUser(u *npk.User) {
+    sql := `
+    insert into users(id, username, password)
+    values($1, $2, $3)
+    `
+
+    u.Id, _ = uuid.NewRandom()
+    db, _ := npk.DBConnection(config)
+    db.Query(sql, u.Id, u.Username, u.Password)
 }
 
 var userListTpl = `
@@ -166,7 +178,17 @@ func AddUser(w http.ResponseWriter, r *http.Request) {
         }
 
     case "POST":
-        break
+        if err := r.ParseForm(); err != nil {
+            log.Printf("Failed to parse form: %v", err)
+            return
+        }
+
+        user := npk.User{
+            Username: r.FormValue("username"),
+            Password: r.FormValue("password1"),
+        }
+        addUser(&user)
+        http.Redirect(w, r, "/users", http.StatusFound)
 
     default:
         http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
