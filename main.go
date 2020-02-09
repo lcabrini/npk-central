@@ -21,5 +21,7 @@ func main() {
     r.HandleFunc("/users", npk.DisableCache(npk.Authenticated(ListUsers)))
     r.HandleFunc("/users/add",
         npk.DisableCache(npk.Authenticated(AddUser)))
+    r.HandleFunc("/branches", npk.DisableCache(npk.Authenticated(
+        ListBranches)))
     http.ListenAndServe(config.Listen, r)
 }
