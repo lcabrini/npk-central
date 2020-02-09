@@ -1,4 +1,11 @@
-drop type if exists branch_status;
+drop function if exists hq_id();
+create function hq_id() returns uuid as $$
+begin
+    return '6c2cfb13-82a8-4fc8-85cb-82aedc9b982d';
+end;
+$$ language plpgsql;
+
+drop type if exists branch_status cascade;
 create type branch_status as enum(
     'active',
     'inactive'
@@ -15,17 +22,17 @@ create table branches(
 );
 
 insert into branches(id, name) values(
-    '6c2cfb13-82a8-4fc8-85cb-82aedc9b982d',
+    hq_id(),
     'HQ'
 );
 
 drop function if exists delete_branch();
-create function delete_branch() return trigger as $$
+create function delete_branch() returns trigger as $$
 begin
-    if old.id = '6c2cfb13-82a8-4fc8-85cb-82aedc9b982d' then
-        raise exception "cannot delete HQ branch";
+    if old.id = hq_id() then
+        raise exception 'cannot delete HQ branch';
     else
-        return old
+        return old;
     end if;
 end;
 $$ language plpgsql;
