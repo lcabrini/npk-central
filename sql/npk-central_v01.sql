@@ -8,7 +8,8 @@ $$ language plpgsql;
 drop type if exists branch_status cascade;
 create type branch_status as enum(
     'active',
-    'inactive'
+    'inactive',
+    'deleted'
 );
 
 drop table if exists branches;
