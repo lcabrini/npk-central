@@ -54,7 +54,7 @@ var branchListTpl = `
     <i class="fa fa-plus"></i>
   </a>
 </div>
-{{end}
+{{end}}
 
 {{define "main"}}
 <table class="table is-fullwidth">
@@ -77,7 +77,7 @@ var branchListTpl = `
           <i class="fa fa-edit"></i>
         </a>
         <a href="/branches/delete/{{.Id}}">
-          <i calss="fa fa-trash-alt"></i>
+          <i class="fa fa-trash-alt"></i>
         </a>
       </td>
     </tr>
